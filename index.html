@@ -376,17 +376,17 @@
         const closeReads = document.getElementById('closeReads');
 
         // Initialize first image
-        slideImage.src = photos[currentSlide];
-        slideImage.classList.add('active');
+          slideImage.src = photos[currentSlide];
 
         function changeSlide(direction) {
-            // Remove active class and fade out current image
-            slideImage.classList.remove('active', 'slide-left', 'slide-right');
-            slideImage.style.opacity = '0';
+            // Fade out current image
+            slideImage.classList.add('fade-out');
+            slideImage.classList.remove('slide-left', 'slide-right');
             
             // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
+                slideImage.classList.remove('fade-out');
                 
                 // Add appropriate slide animation
                 if (direction === 'next') {
@@ -394,9 +394,6 @@
                 } else if (direction === 'prev') {
                     slideImage.classList.add('slide-right');
                 }
-                
-                // Reset opacity to let animation control it
-                slideImage.style.opacity = '';
             }, 300);
         }
 
