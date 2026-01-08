@@ -188,7 +188,20 @@
             display: grid;
             grid-template-columns: 300px 1fr;
             gap: 48px;
-            align-items: start;
+            align-items: end;
+        }
+
+        .about-text-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .about-second-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 24px;
         }
 
         .about-image {
@@ -261,20 +274,21 @@
 
         .reads-button {
             display: inline-block;
-            margin-top: 24px;
-            padding: 12px 24px;
-            background-color: #111;
-            color: white;
+            margin-top: 32px;
+            padding: 0;
+            background: none;
+            color: #666;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 16px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1.5px;
             cursor: pointer;
             border: none;
-            transition: background-color 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         .reads-button:hover {
-            background-color: #333;
+            color: #111;
         }
     </style>
 </head>
@@ -323,13 +337,16 @@
                     <img src="https://live.staticflickr.com/65535/55030006066_bdacbfb836_b.jpg" 
                          class="about-image">
                 </div>
-                <div class="about-text">
+                <div class="about-text-section">
                     <p class="section-text">
                         Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
                     </p>
-                    <button class="reads-button" id="readsButton">What I'm Reading →</button>
+                    <!-- ADD YOUR SECOND PHOTO URL BELOW -->
+                    <img src="https://live.staticflickr.com/65535/54095527418_9dc43bda44_b.jpg" 
+                         class="about-second-image">
                 </div>
             </div>
+            <button class="reads-button" id="readsButton">Favorite Reads</button>
             <!-- END ABOUT CONTENT -->
         </div>
     </div>
