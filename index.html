@@ -458,24 +458,31 @@
         slideImage.src = photos[currentSlide];
 
         function changeSlide(direction) {
-            // Fade out and remove any previous animations
-            slideImage.style.opacity = '0';
+            // Remove any previous animations
             slideImage.classList.remove('slide-left', 'slide-right');
             
-            // After fade out, change image and slide in
-            setTimeout(() => {
-                slideImage.src = photos[currentSlide];
+            // Create a new image to preload
+            const newImage = new Image();
+            newImage.src = photos[currentSlide];
+            
+            // Once the new image is loaded, do the transition
+            newImage.onload = () => {
+                // Fade out current image slightly
+                slideImage.style.opacity = '0.3';
                 
-                // Trigger slide animation
+                // After brief fade, swap and slide in
                 setTimeout(() => {
+                    slideImage.src = photos[currentSlide];
+                    slideImage.style.opacity = '1';
+                    
+                    // Add slide animation
                     if (direction === 'next') {
                         slideImage.classList.add('slide-left');
                     } else if (direction === 'prev') {
                         slideImage.classList.add('slide-right');
                     }
-                     slideImage.style.opacity = '';
-                }, 50);
-            }, 300);
+                }, 150);
+            };
         }
 
         function updateArrows() {
