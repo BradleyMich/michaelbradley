@@ -379,7 +379,6 @@
             // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
-                slideImage.style.opacity = '1';
                 
                 // Trigger slide animation
                 setTimeout(() => {
@@ -388,7 +387,8 @@
                     } else if (direction === 'prev') {
                         slideImage.classList.add('slide-right');
                     }
-                }, 10);
+                     slideImage.style.opacity = '';
+                }, 50);
             }, 300);
         }
 
