@@ -258,6 +258,24 @@
             color: #666;
             font-size: 16px;
         }
+
+        .reads-button {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 12px 24px;
+            background-color: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .reads-button:hover {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
@@ -283,7 +301,6 @@
                 <h1 class="site-title">MICHAEL BRADLEY</h1>
                 <div class="nav-links">
                     <a id="aboutLink">About</a>
-                    <a id="readsLink">Reads</a>
                 </div>
             </div>
         </div>
@@ -310,6 +327,7 @@
                     <p class="section-text">
                         Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
                     </p>
+                    <button class="reads-button" id="readsButton">What I'm Reading →</button>
                 </div>
             </div>
             <!-- END ABOUT CONTENT -->
@@ -362,7 +380,7 @@
 
         // Section navigation
         const aboutLink = document.getElementById('aboutLink');
-        const readsLink = document.getElementById('readsLink');
+        const readsButton = document.getElementById('readsButton');
         const aboutSection = document.getElementById('aboutSection');
         const readsSection = document.getElementById('readsSection');
         const closeAbout = document.getElementById('closeAbout');
@@ -441,7 +459,7 @@
             aboutSection.classList.add('active');
         });
 
-        readsLink.addEventListener('click', () => {
+        readsButton.addEventListener('click', () => {
             readsSection.classList.add('active');
         });
 
