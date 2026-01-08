@@ -380,13 +380,13 @@
         slideImage.classList.add('active');
 
         function changeSlide(direction) {
-            // Fade out current image
+            // Remove active class and fade out current image
+            slideImage.classList.remove('active', 'slide-left', 'slide-right');
             slideImage.style.opacity = '0';
             
             // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
-                slideImage.classList.remove('slide-left', 'slide-right');
                 
                 // Add appropriate slide animation
                 if (direction === 'next') {
