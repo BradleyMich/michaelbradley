@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Bradley - Photography Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-area {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #f5f5f5;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease, background-color 0.2s ease;
+            pointer-events: none;
+        }
+
+        .arrow.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .arrow:hover {
+            background-color: #333;
+        }
+
+        .arrow-left {
+            left: 32px;
+        }
+
+        .arrow-right {
+            right: 32px;
+        }
+
+        .arrow svg {
+            width: 32px;
+            height: 32px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 24px 48px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .site-title {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+            color: #111;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #111;
+        }
+
+        /* Content sections */
+        .content-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .content-section.active {
+            transform: translateY(0);
+        }
+
+        .section-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 48px 120px;
+        }
+
+        .about-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .about-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .close-button {
+            position: fixed;
+            top: 32px;
+            right: 48px;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close-button svg {
+            width: 100%;
+            height: 100%;
+            stroke: #111;
+            stroke-width: 2;
+        }
+
+        .close-button:hover svg {
+            stroke: #666;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #111;
+        }
+
+        .section-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 24px;
+        }
+
+        .reads-list {
+            list-style: none;
+            margin-top: 32px;
+        }
+
+        .reads-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .reads-list li:last-child {
+            border-bottom: none;
+        }
+
+        .book-title {
+            font-weight: 600;
+            font-size: 20px;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-area" id="imageArea">
+            <img id="slideImage" class="slide-image" src="" alt="">
+            
+            <div class="arrow arrow-left" id="leftArrow">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            
+            <div class="arrow arrow-right" id="rightArrow">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-content">
+                <h1 class="site-title">MICHAEL BRADLEY</h1>
+                <div class="nav-links">
+                    <a id="aboutLink">About</a>
+                    <a id="readsLink">Reads</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="content-section" id="aboutSection">
+        <button class="close-button" id="closeAbout">
+            <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="section-content">
+            <h2 class="section-title">About</h2>
+            <!-- EDIT YOUR ABOUT CONTENT BELOW -->
+            <div class="about-layout">
+                <div>
+                    <!-- REPLACE WITH YOUR PHOTO URL -->
+                    <img src=".w=400&h=400&fit=crop" 
+                         alt="Me" 
+                         class="about-image">
+                </div>
+                <div class="about-text">
+                    <p class="section-text">
+                        .
+                    </p>
+                    <p class="section-text">
+                        .
+                    </p>
+                </div>
+            </div>
+            <!-- END ABOUT CONTENT -->
+        </div>
+    </div>
+
+    <!-- Reads Section -->
+    <div class="content-section" id="readsSection">
+        <button class="close-button" id="closeReads">
+            <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="section-content">
+            <h2 class="section-title">Reads</h2>
+            <!-- EDIT YOUR READING LIST BELOW -->
+            <ul class="reads-list">
+                <li>
+                    <div class="book-title">Book Title 1</div>
+                    <div class="book-author">by Author Name</div>
+                </li>
+            </ul>
+            <!-- END READING LIST -->
+        </div>
+    </div>
+
+    <script>
+        // Photo URLs - Replace these with your own images
+        const photos = [
+            'https://live.staticflickr.com/65535/54278397776_cb3bab04d3_b.jpg',
+        ];
+
+        let currentSlide = 0;
+        let mousePosition = 'center';
+        let isHovering = false;
+
+        const imageArea = document.getElementById('imageArea');
+        const slideImage = document.getElementById('slideImage');
+        const leftArrow = document.getElementById('leftArrow');
+        const rightArrow = document.getElementById('rightArrow');
+
+        // Section navigation
+        const aboutLink = document.getElementById('aboutLink');
+        const readsLink = document.getElementById('readsLink');
+        const aboutSection = document.getElementById('aboutSection');
+        const readsSection = document.getElementById('readsSection');
+        const closeAbout = document.getElementById('closeAbout');
+        const closeReads = document.getElementById('closeReads');
+
+        // Initialize first image
+        slideImage.src = photos[currentSlide];
+
+        function updateArrows() {
+            const showLeft = isHovering && currentSlide > 0 && mousePosition === 'left';
+            const showRight = isHovering && currentSlide < photos.length - 1 && mousePosition === 'right';
+
+            leftArrow.classList.toggle('visible', showLeft);
+            rightArrow.classList.toggle('visible', showRight);
+        }
+
+        imageArea.addEventListener('mousemove', (e) => {
+            const rect = imageArea.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const midpoint = rect.width / 2;
+
+            mousePosition = x < midpoint ? 'left' : 'right';
+            updateArrows();
+        });
+
+        imageArea.addEventListener('mouseenter', () => {
+            isHovering = true;
+            updateArrows();
+        });
+
+        imageArea.addEventListener('mouseleave', () => {
+            isHovering = false;
+            mousePosition = 'center';
+            updateArrows();
+        });
+
+        leftArrow.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                slideImage.src = photos[currentSlide];
+                updateArrows();
+            }
+        });
+
+        rightArrow.addEventListener('click', () => {
+            if (currentSlide < photos.length - 1) {
+                currentSlide++;
+                slideImage.src = photos[currentSlide];
+                updateArrows();
+            }
+        });
+
+        // Section navigation
+        aboutLink.addEventListener('click', () => {
+            aboutSection.classList.add('active');
+        });
+
+        readsLink.addEventListener('click', () => {
+            readsSection.classList.add('active');
+        });
+
+        closeAbout.addEventListener('click', () => {
+            aboutSection.classList.remove('active');
+        });
+
+        closeReads.addEventListener('click', () => {
+            readsSection.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
