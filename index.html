@@ -31,7 +31,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 0 100px 0;
+            padding: 40px 60px 120px 60px;
         }
 
         .slide-image {
@@ -40,6 +40,43 @@
             width: auto;
             height: auto;
             object-fit: contain;
+            opacity: 0;
+            transform: translateX(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide-image.active {
+            opacity: 1;
+        }
+
+        .slide-image.slide-left {
+            animation: slideLeft 0.5s ease;
+        }
+
+        .slide-image.slide-right {
+            animation: slideRight 0.5s ease;
+        }
+
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .arrow {
@@ -275,10 +312,7 @@
                 </div>
                 <div class="about-text">
                     <p class="section-text">
-                        .
-                    </p>
-                    <p class="section-text">
-                        .
+                        Hi! My name is Michael, and I'm a freshman at Rice University studying Operations Research and Business.
                     </p>
                 </div>
             </div>
@@ -314,8 +348,13 @@
     <script>
         // Photo URLs - Replace these with your own images
         const photos = [
-            'https://live.staticflickr.com/65535/54278397776_cb3bab04d3_b.jpg',
-            'https://live.staticflickr.com/65535/54596480594_0faeb89ae0_b.jpg'
+            'https://live.staticflickr.com/65535/55029076242_14b3757948_b.jpg',
+            'https://live.staticflickr.com/65535/55029076147_e172b4a994_b.jpg',
+            'https://live.staticflickr.com/65535/55029076522_87b9628b6d_b.jpg',
+            'https://live.staticflickr.com/65535/55030307515_fc0e3b45eb_b.jpg',
+            'https://live.staticflickr.com/65535/55030226579_2f7829bbdc_b.jpg'
+            
+            
         ];
 
         let currentSlide = 0;
@@ -337,6 +376,25 @@
 
         // Initialize first image
         slideImage.src = photos[currentSlide];
+        slideImage.classList.add('active');
+
+        function changeSlide(direction) {
+            // Remove animation classes
+            slideImage.classList.remove('slide-left', 'slide-right', 'active');
+            
+            // Wait a moment then change image
+            setTimeout(() => {
+                slideImage.src = photos[currentSlide];
+                slideImage.classList.add('active');
+                
+                // Add appropriate slide animation
+                if (direction === 'next') {
+                    slideImage.classList.add('slide-left');
+                } else if (direction === 'prev') {
+                    slideImage.classList.add('slide-right');
+                }
+            }, 50);
+        }
 
         function updateArrows() {
             const showLeft = isHovering && currentSlide > 0 && mousePosition === 'left';
@@ -369,7 +427,7 @@
         leftArrow.addEventListener('click', () => {
             if (currentSlide > 0) {
                 currentSlide--;
-                slideImage.src = photos[currentSlide];
+                changeSlide('prev');
                 updateArrows();
             }
         });
@@ -377,7 +435,7 @@
         rightArrow.addEventListener('click', () => {
             if (currentSlide < photos.length - 1) {
                 currentSlide++;
-                slideImage.src = photos[currentSlide];
+                changeSlide('next');
                 updateArrows();
             }
         });
