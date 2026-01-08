@@ -198,7 +198,7 @@
         }
 
         .about-second-image {
-            width: 100%;
+            width: 80%;
             height: auto;
             border-radius: 4px;
             margin-top: 24px;
@@ -342,11 +342,11 @@
                         Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
                     </p>
                     <!-- ADD YOUR SECOND PHOTO URL BELOW -->
-                    <img src="https://live.staticflickr.com/65535/54095527418_9dc43bda44_b.jpg" 
+                    <img src="https://live.staticflickr.com/65535/55030006066_bdacbfb836_b.jpg" 
                          class="about-second-image">
                 </div>
             </div>
-            <button class="reads-button" id="readsButton">Favorite Reads</button>
+            <button class="reads-button" id="readsButton">What I'm Reading</button>
             <!-- END ABOUT CONTENT -->
         </div>
     </div>
@@ -377,14 +377,24 @@
     </div>
 
     <script>
-        // Photo URLs - Replace these with your own images
-        const photos = [
+        // ALL Photo URLs - Add all 25-50 of your photos here
+        const allPhotos = [
             'https://live.staticflickr.com/65535/55029076242_14b3757948_b.jpg',
             'https://live.staticflickr.com/65535/55029076147_e172b4a994_b.jpg',
             'https://live.staticflickr.com/65535/55029076522_87b9628b6d_b.jpg',
             'https://live.staticflickr.com/65535/55030307515_fc0e3b45eb_b.jpg',
-            'https://live.staticflickr.com/65535/55030226579_2f7829bbdc_b.jpg'
+            'https://live.staticflickr.com/65535/55030226579_2f7829bbdc_b.jpg',
+            'https://live.staticflickr.com/65535/55030156273_5e1383beea_b.jpg'
+            // Add more photo URLs here (up to 50)
         ];
+
+        // Randomly select 10 photos from the full collection
+        function getRandomPhotos(arr, count) {
+            const shuffled = [...arr].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, Math.min(count, arr.length));
+        }
+
+        const photos = getRandomPhotos(allPhotos, 10);
 
         let currentSlide = 0;
         let mousePosition = 'center';
@@ -486,6 +496,24 @@
 
         closeReads.addEventListener('click', () => {
             readsSection.classList.remove('active');
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Only navigate if we're not in a content section
+            if (!aboutSection.classList.contains('active') && 
+                !readsSection.classList.contains('active')) {
+                
+                if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    changeSlide('prev');
+                    updateArrows();
+                } else if (e.key === 'ArrowRight' && currentSlide < photos.length - 1) {
+                    currentSlide++;
+                    changeSlide('next');
+                    updateArrows();
+                }
+            }
         });
     </script>
 </body>
