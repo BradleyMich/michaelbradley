@@ -312,7 +312,10 @@
                 </div>
                 <div class="about-text">
                     <p class="section-text">
-                        Hi! My name is Michael, and I'm a freshman at Rice University studying Operations Research and Business.
+                        Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
+                    </p>
+                    <p class="section-text">
+                        .
                     </p>
                 </div>
             </div>
@@ -353,8 +356,6 @@
             'https://live.staticflickr.com/65535/55029076522_87b9628b6d_b.jpg',
             'https://live.staticflickr.com/65535/55030307515_fc0e3b45eb_b.jpg',
             'https://live.staticflickr.com/65535/55030226579_2f7829bbdc_b.jpg'
-            
-            
         ];
 
         let currentSlide = 0;
@@ -379,13 +380,13 @@
         slideImage.classList.add('active');
 
         function changeSlide(direction) {
-            // Remove animation classes
-            slideImage.classList.remove('slide-left', 'slide-right', 'active');
+            // Fade out current image
+            slideImage.style.opacity = '0';
             
-            // Wait a moment then change image
+            // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
-                slideImage.classList.add('active');
+                slideImage.classList.remove('slide-left', 'slide-right');
                 
                 // Add appropriate slide animation
                 if (direction === 'next') {
@@ -393,7 +394,10 @@
                 } else if (direction === 'prev') {
                     slideImage.classList.add('slide-right');
                 }
-            }, 50);
+                
+                // Reset opacity to let animation control it
+                slideImage.style.opacity = '';
+            }, 300);
         }
 
         function updateArrows() {
