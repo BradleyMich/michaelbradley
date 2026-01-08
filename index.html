@@ -163,17 +163,15 @@
         /* Content sections */
         .content-section {
             position: fixed;
-            top: 40px;
-            left: 60px;
-            right: 60px;
-            bottom: 120px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: white;
             z-index: 1000;
             overflow-y: auto;
             transform: translateY(100%);
             transition: transform 0.4s ease;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .content-section.active {
@@ -181,9 +179,9 @@
         }
 
         .section-content {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 60px 48px;
+            padding: 80px 48px 120px;
         }
 
         .about-layout {
@@ -204,9 +202,9 @@
         }
 
         .close-button {
-            position: absolute;
-            top: 24px;
-            right: 24px;
+            position: fixed;
+            top: 32px;
+            right: 48px;
             width: 40px;
             height: 40px;
             background: none;
@@ -227,9 +225,9 @@
         }
 
         .section-title {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: bold;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
             color: #111;
         }
 
@@ -305,16 +303,12 @@
             <div class="about-layout">
                 <div>
                     <!-- REPLACE WITH YOUR PHOTO URL -->
-                    <img src="https://live.staticflickr.com/65535/54095527418_9dc43bda44_b.jpg" 
-                         alt="Me" 
+                    <img src="https://live.staticflickr.com/65535/55030006066_bdacbfb836_b.jpg" 
                          class="about-image">
                 </div>
                 <div class="about-text">
                     <p class="section-text">
-                        .
-                    </p>
-                    <p class="section-text">
-                        .
+                        Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
                     </p>
                 </div>
             </div>
@@ -350,8 +344,11 @@
     <script>
         // Photo URLs - Replace these with your own images
         const photos = [
-            'https://live.staticflickr.com/65535/54278397776_cb3bab04d3_b.jpg',
-            'https://live.staticflickr.com/65535/54596480594_0faeb89ae0_b.jpg'
+            'https://live.staticflickr.com/65535/55029076242_14b3757948_b.jpg',
+            'https://live.staticflickr.com/65535/55029076147_e172b4a994_b.jpg',
+            'https://live.staticflickr.com/65535/55029076522_87b9628b6d_b.jpg',
+            'https://live.staticflickr.com/65535/55030307515_fc0e3b45eb_b.jpg',
+            'https://live.staticflickr.com/65535/55030226579_2f7829bbdc_b.jpg'
         ];
 
         let currentSlide = 0;
@@ -379,19 +376,18 @@
             slideImage.style.opacity = '0';
             slideImage.classList.remove('slide-left', 'slide-right');
             
-            // After fade out, change image
+            // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
                 
-                // Small delay before starting slide animation
+                // Trigger slide animation
                 setTimeout(() => {
                     if (direction === 'next') {
                         slideImage.classList.add('slide-left');
                     } else if (direction === 'prev') {
                         slideImage.classList.add('slide-right');
                     }
-                    // Let animation handle the opacity
-                    slideImage.style.opacity = '';
+                     slideImage.style.opacity = '';
                 }, 50);
             }, 300);
         }
