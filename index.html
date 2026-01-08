@@ -71,20 +71,22 @@
             }
         }
 
-        .arrow {
+    .arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background-color: black;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.3s ease, background-color 0.2s ease;
+            transition: opacity 0.3s ease, background-color 0.2s ease, border-color 0.2s ease;
             pointer-events: none;
         }
 
@@ -94,7 +96,8 @@
         }
 
         .arrow:hover {
-            background-color: #333;
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .arrow-left {
