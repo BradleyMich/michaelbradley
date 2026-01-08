@@ -286,6 +286,144 @@
         .reads-button:hover {
             color: #111;
         }
+
+        /* Photo counter */
+        .photo-counter {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .photo-counter.visible {
+            opacity: 1;
+        }
+
+        /* Fullscreen button */
+        .fullscreen-button {
+            position: fixed;
+            bottom: 100px;
+            right: 48px;
+            width: 44px;
+            height: 44px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s ease, background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-button.visible {
+            opacity: 1;
+        }
+
+        .fullscreen-button:hover {
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+
+        .fullscreen-button svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                padding: 16px 24px;
+            }
+
+            .nav-content {
+                gap: 24px;
+            }
+
+            .site-title {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .about-second-image {
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            .section-content {
+                padding: 60px 24px 100px;
+            }
+
+            .section-title {
+                font-size: 36px;
+                margin-bottom: 24px;
+            }
+
+            .section-text {
+                font-size: 16px;
+            }
+
+            .close-button {
+                top: 20px;
+                right: 24px;
+            }
+
+            .arrow {
+                width: 48px;
+                height: 48px;
+            }
+
+            .arrow-left {
+                left: 16px;
+            }
+
+            .arrow-right {
+                right: 16px;
+            }
+
+            .photo-counter {
+                bottom: 80px;
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+
+            .fullscreen-button {
+                bottom: 80px;
+                right: 24px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .image-area {
+                padding: 20px 20px 100px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -305,6 +443,14 @@
                 </svg>
             </div>
         </div>
+
+        <div class="photo-counter" id="photoCounter">1 / 10</div>
+        
+        <button class="fullscreen-button" id="fullscreenButton">
+            <svg viewBox="0 0 24 24">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+        </button>
 
         <div class="bottom-nav">
             <div class="nav-content">
@@ -413,15 +559,7 @@
             'https://live.staticflickr.com/65535/53907320125_8c8029cdab_b.jpg', // midnight sun lofoten
             'https://live.staticflickr.com/65535/53905911357_faacca2461_b.jpg', // skraelingen from ferry lofoten
             'https://live.staticflickr.com/65535/53744908608_580260c849_b.jpg', // lush pink panther graff milpitas
-            'https://live.staticflickr.com/65535/55031099279_426bbd9951_b.jpg' // trails serene lakes
-            
-            
-
-
-
-
-
-            
+            'https://live.staticflickr.com/65535/55031099279_426bbd9951_b.jpg'  // trails serene lakes
             // Add more photo URLs here (up to 50)
         ];
 
@@ -441,6 +579,8 @@
         const slideImage = document.getElementById('slideImage');
         const leftArrow = document.getElementById('leftArrow');
         const rightArrow = document.getElementById('rightArrow');
+        const photoCounter = document.getElementById('photoCounter');
+        const fullscreenButton = document.getElementById('fullscreenButton');
 
         // Section navigation
         const aboutLink = document.getElementById('aboutLink');
@@ -452,6 +592,11 @@
 
         // Initialize first image
         slideImage.src = photos[currentSlide];
+        updatePhotoCounter();
+
+        function updatePhotoCounter() {
+            photoCounter.textContent = `${currentSlide + 1} / ${photos.length}`;
+        }
 
         function changeSlide(direction) {
             // Remove any previous animations
@@ -477,6 +622,9 @@
                     } else if (direction === 'prev') {
                         slideImage.classList.add('slide-right');
                     }
+                    
+                    // Update counter
+                    updatePhotoCounter();
                 }, 150);
             };
         }
@@ -501,12 +649,16 @@
         imageArea.addEventListener('mouseenter', () => {
             isHovering = true;
             updateArrows();
+            photoCounter.classList.add('visible');
+            fullscreenButton.classList.add('visible');
         });
 
         imageArea.addEventListener('mouseleave', () => {
             isHovering = false;
             mousePosition = 'center';
             updateArrows();
+            photoCounter.classList.remove('visible');
+            fullscreenButton.classList.remove('visible');
         });
 
         leftArrow.addEventListener('click', () => {
@@ -542,8 +694,51 @@
             readsSection.classList.remove('active');
         });
 
+        // Fullscreen functionality
+        fullscreenButton.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
+            // ESC key to close sections
+            if (e.key === 'Escape') {
+                if (aboutSection.classList.contains('active')) {
+                    aboutSection.classList.remove('active');
+                    return;
+                }
+                if (readsSection.classList.contains('active')) {
+                    readsSection.classList.remove('active');
+                    return;
+                }
+                // Exit fullscreen if in fullscreen mode
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                    return;
+                }
+            }
+            
+            // F key to toggle fullscreen
+            if (e.key === 'f' || e.key === 'F') {
+                if (!aboutSection.classList.contains('active') && 
+                    !readsSection.classList.contains('active')) {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.log('Error attempting to enable fullscreen:', err);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                    return;
+                }
+            }
+            
             // Only navigate if we're not in a content section
             if (!aboutSection.classList.contains('active') && 
                 !readsSection.classList.contains('active')) {
