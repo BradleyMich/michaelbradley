@@ -40,13 +40,9 @@
             width: auto;
             height: auto;
             object-fit: contain;
-            opacity: 0;
-            transform: translateX(0);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .slide-image.active {
             opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.3s ease, transform 0.5s ease;
         }
 
         .slide-image.slide-left {
@@ -312,10 +308,7 @@
                 </div>
                 <div class="about-text">
                     <p class="section-text">
-                        Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and business. 
-                    </p>
-                    <p class="section-text">
-                        .
+                        Hi! My name is Michael, and I'm a freshman at Rice University studying operations research and Business. 
                     </p>
                 </div>
             </div>
@@ -376,24 +369,26 @@
         const closeReads = document.getElementById('closeReads');
 
         // Initialize first image
-          slideImage.src = photos[currentSlide];
+        slideImage.src = photos[currentSlide];
 
         function changeSlide(direction) {
-            // Fade out current image
-            slideImage.classList.add('fade-out');
+            // Fade out and remove any previous animations
+            slideImage.style.opacity = '0';
             slideImage.classList.remove('slide-left', 'slide-right');
             
             // After fade out, change image and slide in
             setTimeout(() => {
                 slideImage.src = photos[currentSlide];
-                slideImage.classList.remove('fade-out');
+                slideImage.style.opacity = '1';
                 
-                // Add appropriate slide animation
-                if (direction === 'next') {
-                    slideImage.classList.add('slide-left');
-                } else if (direction === 'prev') {
-                    slideImage.classList.add('slide-right');
-                }
+                // Trigger slide animation
+                setTimeout(() => {
+                    if (direction === 'next') {
+                        slideImage.classList.add('slide-left');
+                    } else if (direction === 'prev') {
+                        slideImage.classList.add('slide-right');
+                    }
+                }, 10);
             }, 300);
         }
 
